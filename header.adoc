@@ -1,27 +1,25 @@
-= RISC-V Example Specification Document (Zexmpl)
-Authors: Author 1, Author 2
-:docgroup: RISC-V Task Group
-:description: RISC-V Example Specification Document (Zexmpl)
+[[header]]
+:description: No Invalid PTEs in Adddress-Translation Caches (Svvptc)
 :company: RISC-V.org
-:revdate: 1/2023
-:revnumber: 1.0
-:revremark: This document is under development. Expect potential changes. Visit http://riscv.org/spec-state for further details.
-:revinfo:
+:revdate: 12/2023
+:revnumber: 0.7
+:revremark: This document is in development state. See http://riscv.org/spec-state for details.
 :url-riscv: http://riscv.org
 :doctype: book
 :preface-title: Preamble
 :colophon:
 :appendix-caption: Appendix
-:imagesdir: docs-resources/images
+:imagesdir: images
 :title-logo-image: image:risc-v_logo.png[pdfwidth=3.25in,align=center]
 // Settings:
 :experimental:
 :reproducible:
+// needs to be changed? bug discussion started
 //:WaveDromEditorApp: app/wavedrom-editor.app
-:imagesoutdir: docs-resources/images
-:bibtex-file: example.bib
-:bibtex-order: alphabetical
-:bibtex-style: apa
+:imagesoutdir: images
+:bibtex-file: svvptc.bib
+:bibtex-order: occurrence
+:bibtex-style: ieee
 :icons: font
 :lang: en
 :listing-caption: Listing
@@ -38,16 +36,19 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
+= No Invalid PTEs in Adddress-Translation Caches (Svvptc)
+
+// Preamble
 [WARNING]
 .This document is in the link:http://riscv.org/spec-state[Development state]
 ====
-Expect potential changes. This draft specification is likely to evolve before
-it is accepted as a standard. Implementations based on this draft
-may not conform to the future standard.
+Assume everything can change. This draft specification will change before being
+accepted as standard, so implementations made to this draft specification will
+likely not conform to the future standard.
 ====
 
 [preface]
-== Copyright and license information
+=== Copyright and license information
 This specification is licensed under the Creative Commons
 Attribution 4.0 International License (CC-BY 4.0). The full
 license text is available at
@@ -56,11 +57,33 @@ https://creativecommons.org/licenses/by/4.0/.
 Copyright 2023 by RISC-V International.
 
 [preface]
-include::contributors.adoc[]
+=== Contributors
+This RISC-V specification has been contributed to directly or indirectly by:
+Ved Shanbhogue
 
-include::intro.adoc[]
-include::chapter2.adoc[]
+== No Invalid PTEs in Adddress-Translation Caches (Svvptc)
 
-// The index must precede the bibliography
-include::index.adoc[]
-include::bibliography.adoc[]
+When the Svvptc extension is implemented, explicit stores in a hart that update
+the Valid bit of a leaf or non-leaf PTEs from 0 to 1 are ordered before and
+visible to implicit references in that hart to the memory-management data
+structures by instructions subsequent to a memory-management fence instruction
+or an `__x__RET` instruction, whichever occurs first after the stores that
+update the PTEs.
+
+[NOTE]
+====
+This extension effectively prohibits the caching of PTEs whose Valid bits are
+clear in address-translation cache entries. Consequently, updating the Valid bit
+from 0 to 1 for either leaf or non-leaf PTEs does not require a memory-management
+fence to invalidate cached copies of them from any address-translation caches.
+
+Commonly, PTEs are marked as Valid in response to a page-fault exception or a
+system call, such as one that maps memory regions. In such scenarios, the trap
+handler typically uses an `__x__RET` to return from the trap. The store operation
+used by the trap handler to update the Valid bit of the PTEs from 0 to 1 are
+ordered before and visible to the implicit references to the updated
+memory-management data structures by instructions subsequent to the `__x__RET`
+such as the instruction that raised the page-fault exception or the instructions
+that access the newly mapped memory ranges. The use of a memory-management fence
+is not necessary in such cases.
+====
