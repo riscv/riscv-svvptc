@@ -64,7 +64,7 @@ Ved Shanbhogue
 == No Invalid PTEs in Adddress-Translation Caches (Svvptc)
 
 When the Svvptc extension is implemented, explicit stores in a hart that update
-the Valid bit of a leaf or non-leaf PTEs from 0 to 1 are ordered before and
+the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before and
 visible to implicit references in that hart to the memory-management data
 structures by instructions subsequent to a memory-management fence instruction
 or an `__x__RET` instruction, whichever occurs first after the stores that
