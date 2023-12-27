@@ -1,4 +1,4 @@
-= Svvptc - No Caching of Invalid PTEs Extension
+= No Invalid PTEs in Adddress-Translation Caches (Svvptc)
 
 == License
 
