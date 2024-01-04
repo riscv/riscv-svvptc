@@ -59,7 +59,7 @@ Copyright 2023 by RISC-V International.
 [preface]
 === Contributors
 This RISC-V specification has been contributed to directly or indirectly by:
-Ved Shanbhogue
+Ved Shanbhogue, Andrew Waterman, Greg Favor, Krste Asanovic
 
 == No Invalid PTEs in Adddress-Translation Caches (Svvptc)
 
@@ -72,17 +72,17 @@ update the PTEs.
 
 [NOTE]
 ====
-This extension effectively prohibits the caching of PTEs whose Valid bits are
-clear in address-translation cache entries. Consequently, updating the Valid bit
+This extension effectively prohibits the caching of a PTE in address-translation
+caches if the Valid bit of the PTE is clear. Consequently, updating the Valid bit
 from 0 to 1 for either leaf or non-leaf PTEs does not require a memory-management
-fence to invalidate cached copies of them from any address-translation caches.
+fence to invalidate cached copies of them from any address-translation cache.
 
 Commonly, PTEs are marked as Valid in response to a page-fault exception or a
 system call, such as one that maps memory regions. In such scenarios, the trap
-handler typically uses an `__x__RET` to return from the trap. The store operation
+handler typically uses an `__x__RET` to return from the trap. The store operations
 used by the trap handler to update the Valid bit of the PTEs from 0 to 1 are
 ordered before and visible to the implicit references to the updated
-memory-management data structures by instructions subsequent to the `__x__RET`
+memory-management data structures by instructions subsequent to the `__x__RET`,
 such as the instruction that raised the page-fault exception or the instructions
 that access the newly mapped memory ranges. The use of a memory-management fence
 is not necessary in such cases.
