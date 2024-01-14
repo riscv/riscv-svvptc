@@ -84,6 +84,6 @@ used by the trap handler to update the Valid bit of the PTEs from 0 to 1 are
 ordered before and visible to the implicit references to the updated
 memory-management data structures by instructions subsequent to the `__x__RET`,
 such as the instruction that raised the page-fault exception or the instructions
-that access the newly mapped memory ranges. The use of a memory-management fence
-is not necessary in such cases.
+that access the newly mapped memory ranges. A memory-management fence is not
+necessary in such cases.
 ====
