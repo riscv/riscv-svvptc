@@ -1,4 +1,4 @@
-= No Invalid PTEs in Adddress-Translation Caches (Svvptc) 
+= No Invalid PTEs in Address-Translation Caches (Svvptc) 
 
 == License
 
