@@ -1,5 +1,5 @@
 [[header]]
-:description: No Invalid PTEs in Adddress-Translation Caches (Svvptc)
+:description: No Invalid PTEs in Address-Translation Caches (Svvptc)
 :company: RISC-V.org
 :revdate: 12/2023
 :revnumber: 0.7
@@ -36,7 +36,7 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= No Invalid PTEs in Adddress-Translation Caches (Svvptc)
+= No Invalid PTEs in Address-Translation Caches (Svvptc)
 
 // Preamble
 [WARNING]
@@ -61,7 +61,7 @@ Copyright 2023 by RISC-V International.
 This RISC-V specification has been contributed to directly or indirectly by:
 Ved Shanbhogue, Andrew Waterman, Greg Favor, Krste Asanovic
 
-== No Invalid PTEs in Adddress-Translation Caches (Svvptc)
+== No Invalid PTEs in Address-Translation Caches (Svvptc)
 
 When the Svvptc extension is implemented, explicit stores in a hart that update
 the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before and
