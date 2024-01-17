@@ -1,5 +1,5 @@
 [[header]]
-:description: No Memory-management Fences on making PTEs valid (Svvptc)
+:description: Eliding Memory-management Fences on setting PTE valid (Svvptc)
 :company: RISC-V.org
 :revdate: 12/2023
 :revnumber: 0.7
