@@ -61,7 +61,7 @@ Copyright 2023 by RISC-V International.
 This RISC-V specification has been contributed to directly or indirectly by:
 Ved Shanbhogue, Andrew Waterman, Greg Favor, Krste Asanovic
 
-== Eliding Memory-management Fences on setting PTE valid (Svvptc)
+== Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 
 When the Svvptc extension is implemented, explicit stores in a hart that update
 the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before, and
