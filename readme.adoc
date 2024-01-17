@@ -1,4 +1,4 @@
-= No Invalid PTEs in Address-Translation Caches (Svvptc) 
+= Eliding Memory-management Fences on setting PTE valid (Svvptc) 
 
 == License
 
