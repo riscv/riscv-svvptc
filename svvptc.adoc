@@ -1,5 +1,5 @@
 [[header]]
-:description: No Invalid PTEs in Address-Translation Caches (Svvptc)
+:description: No Memory-management Fences on making PTEs valid (Svvptc)
 :company: RISC-V.org
 :revdate: 12/2023
 :revnumber: 0.7
@@ -36,7 +36,7 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= No Invalid PTEs in Address-Translation Caches (Svvptc)
+= Eliding Memory-management Fences on setting PTE valid (Svvptc)
 
 // Preamble
 [WARNING]
@@ -61,29 +61,28 @@ Copyright 2023 by RISC-V International.
 This RISC-V specification has been contributed to directly or indirectly by:
 Ved Shanbhogue, Andrew Waterman, Greg Favor, Krste Asanovic
 
-== No Invalid PTEs in Address-Translation Caches (Svvptc)
+== Eliding Memory-management Fences on setting PTE valid (Svvptc)
 
 When the Svvptc extension is implemented, explicit stores in a hart that update
 the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before and
 visible to implicit references in that hart to the memory-management data
 structures by instructions subsequent to a memory-management fence instruction
-or an `__x__RET` instruction, whichever occurs first after the stores that
-update the PTEs.
+or an `SRET` or an `MRET` instruction, whichever occurs first after the stores
+that update the PTEs.
 
 [NOTE]
 ====
-This extension effectively prohibits the caching of a PTE in address-translation
-caches if the Valid bit of the PTE is clear. Consequently, updating the Valid bit
-from 0 to 1 for either leaf or non-leaf PTEs does not require a memory-management
-fence to invalidate cached copies of them from any address-translation cache.
+With Svvptc, updating the Valid bit from 0 to 1 for either leaf or non-leaf PTEs
+does not require a memory-management fence to invalidate cached copies of them
+from any address-translation caches.
 
-Commonly, PTEs are marked as Valid in response to a page-fault exception or a
-system call, such as one that maps memory regions. In such scenarios, the trap
-handler typically uses an `__x__RET` to return from the trap. The store operations
-used by the trap handler to update the Valid bit of the PTEs from 0 to 1 are
-ordered before and visible to the implicit references to the updated
-memory-management data structures by instructions subsequent to the `__x__RET`,
-such as the instruction that raised the page-fault exception or the instructions
-that access the newly mapped memory ranges. A memory-management fence is not
-necessary in such cases.
+Commonly, PTEs are marked as Valid by an OS in response to a page-fault
+exception or a system call, such as one that maps memory regions. In such
+scenarios, the trap handler typically uses an `SRET` to return from the trap.
+The store operations used by the trap handler to update the Valid bit of the
+PTEs from 0 to 1 are ordered before and visible to the implicit references to
+the updated memory-management data structures by instructions subsequent to the
+`SRET`, such as the instruction that raised the page-fault exception or the
+instructions that access the newly mapped memory ranges. A memory-management
+fence is not necessary in such cases.
 ====
