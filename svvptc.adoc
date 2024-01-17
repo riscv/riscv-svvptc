@@ -1,5 +1,5 @@
 [[header]]
-:description: Eliding Memory-management Fences on setting PTE valid (Svvptc)
+:description: Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 :company: RISC-V.org
 :revdate: 12/2023
 :revnumber: 0.7
@@ -36,7 +36,7 @@ endif::[]
 :footnote:
 :xrefstyle: short
 
-= Eliding Memory-management Fences on setting PTE valid (Svvptc)
+= Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 
 // Preamble
 [WARNING]
@@ -64,18 +64,14 @@ Ved Shanbhogue, Andrew Waterman, Greg Favor, Krste Asanovic
 == Eliding Memory-management Fences on setting PTE valid (Svvptc)
 
 When the Svvptc extension is implemented, explicit stores in a hart that update
-the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before and
-visible to implicit references in that hart to the memory-management data
-structures by instructions subsequent to a memory-management fence instruction
-or an `SRET` or an `MRET` instruction, whichever occurs first after the stores
-that update the PTEs.
+the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before, and
+become visible to, implicit references in that hart to the memory-management
+data structures by instructions subsequent to a memory-management fence
+instruction, or an `SRET` instruction, or `MRET` instruction, whichever occurs
+first after the PTE-updating stores.
 
 [NOTE]
 ====
-With Svvptc, updating the Valid bit from 0 to 1 for either leaf or non-leaf PTEs
-does not require a memory-management fence to invalidate cached copies of them
-from any address-translation caches.
-
 Commonly, PTEs are marked as Valid by an OS in response to a page-fault
 exception or a system call, such as one that maps memory regions. In such
 scenarios, the trap handler typically uses an `SRET` to return from the trap.
