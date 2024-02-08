@@ -64,22 +64,25 @@ Alexander Ghiti, Andrew Waterman, Greg Favor, Krste Asanovic, Ved Shanbhogue
 
 == Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 
-When the Svvptc extension is implemented, explicit stores in a hart that update
-the Valid bit of leaf or non-leaf PTEs from 0 to 1 are ordered before, and
-become visible to, implicit references in that hart to the memory-management
-data structures by instructions subsequent to a memory-management fence
-instruction, or an `SRET` instruction, or `MRET` instruction, whichever occurs
-first after the PTE-updating stores.
+When the Svvptc extension is implemented, explicit stores within a hart that
+update the Valid bit of leaf or non-leaf PTEs from 0 to 1 will eventually become
+visible to implicit references in that hart to the memory-management data
+structures. This visibility is immediate for instructions following a
+memory-management fence instruction that orders the preceding explicit stores.
+Otherwise these stores become visible within a bounded timeframe to implicit
+references made by subsequent instructions.
 
 [NOTE]
 ====
-Commonly, PTEs are marked as Valid by an OS in response to a page-fault
-exception or a system call, such as one that maps memory regions. In such
-scenarios, the trap handler typically uses an `SRET` to return from the trap.
-The store operations used by the trap handler to update the Valid bit of the
-PTEs from 0 to 1 are ordered before and visible to the implicit references to
-the updated memory-management data structures by instructions subsequent to the
-`SRET`, such as the instruction that raised the page-fault exception or the
-instructions that access the newly mapped memory ranges. A memory-management
-fence is not necessary in such cases.
+Typically, PTEs are marked as Valid by the operating system following a
+page-fault exception or during system calls for memory mapping. In cases like
+these, the trap handler usually employs an `SRET` instruction to return from the
+trap. The stores it executes to change the Valid bit of the PTEs from 0 to 1
+then become visible to implicit references in that hart to such PTEs within a
+bounded timeframe. This is applicable for instructions like the one causing the
+page-fault or those accessing new memory regions. In these scenarios, a
+memory-management fence is not required. While this approach might lead to an
+occasional gratuitous page-fault, the performance benefit of omitting the
+memory-management fence instructions outweighs the occasional cost of a
+gratuitous page-fault.
 ====
