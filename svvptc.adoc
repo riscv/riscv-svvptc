@@ -60,7 +60,7 @@ Copyright 2024 by RISC-V International.
 [preface]
 === Contributors
 This RISC-V specification has been contributed to directly or indirectly by:
-Alexander Ghiti, Andrew Waterman, Greg Favor, Krste Asanovic, Ved Shanbhogue
+Alexandre Ghiti, Andrew Waterman, Greg Favor, Krste Asanovic, Ved Shanbhogue
 
 == Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 
