@@ -66,8 +66,8 @@ Alexandre Ghiti, Andrew Waterman, Greg Favor, Krste Asanovic, Ved Shanbhogue
 
 When the Svvptc extension is implemented, explicit stores that update the Valid
 bit of leaf or non-leaf PTEs from 0 to 1, and visible to a hart, will eventually
-become visible to implicit references to the memory-management data structures
-in that hart. This visibility is immediate for instructions following a
+become visible to implicit references in that hart to the memory-management data
+structures. This visibility is immediate for instructions following a
 memory-management fence instruction that orders the preceding explicit stores.
 Otherwise these stores become visible within a bounded timeframe to implicit
 references made by subsequent instructions.
