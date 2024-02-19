@@ -60,17 +60,15 @@ Copyright 2024 by RISC-V International.
 [preface]
 === Contributors
 This RISC-V specification has been contributed to directly or indirectly by:
-Alexandre Ghiti, Andrew Waterman, Greg Favor, Krste Asanovic, Ved Shanbhogue
+Alexandre Ghiti, Andrea Parri, Andrew Waterman, Greg Favor, Ken Dockser,
+Krste Asanovic, Ved Shanbhogue
 
 == Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 
-When the Svvptc extension is implemented, explicit stores that are visible to a
-hart and update the Valid bit of leaf and/or non-leaf PTEs from 0 to 1, will
+When the Svvptc extension is implemented, explicit stores that update the Valid
+bit of leaf and/or non-leaf PTEs from 0 to 1 and are visible to a hart will
 eventually become visible within a bounded timeframe to subsequent implicit
-accesses by that hart to the memory-management data structures, and will be
-visible to all implicit accesses to the memory-management data structures that
-are associated with instructions following a memory-management fence instruction
-that orders the preceding explicit stores.
+accesses by that hart to such PTEs.
 
 [NOTE]
 ====
@@ -80,9 +78,10 @@ these, the trap handler usually employs an `SRET` instruction to return from the
 trap. The stores it executes to change the Valid bit of the PTEs from 0 to 1
 then become visible to implicit references to such PTEs within a bounded
 timeframe. This is applicable for instructions like the one causing the
-page-fault or those accessing new memory regions. In these scenarios, a
-memory-management fence is not required. While this approach might lead to an
-occasional gratuitous page-fault, the performance benefit of omitting the
-memory-management fence instructions outweighs the occasional cost of a
-gratuitous page-fault.
+page-fault or those accessing new memory regions. Although a memory-management
+fence could facilitate immediate visibility of these PTE updates to implicit
+references, when Svvptc is implemented, a memory-management fence is not
+required. While this approach might lead to an occasional gratuitous page-fault,
+the performance benefit of omitting the memory-management fence instructions
+outweighs the occasional cost of a gratuitous page-fault.
 ====
