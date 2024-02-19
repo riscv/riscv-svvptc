@@ -81,7 +81,7 @@ timeframe. This is applicable for instructions like the one causing the
 page-fault or those accessing new memory regions. Although a memory-management
 fence could facilitate immediate visibility of these PTE updates to implicit
 references, when Svvptc is implemented, a memory-management fence is not
-required. While this approach might lead to an occasional gratuitous page-fault,
-the performance benefit of omitting the memory-management fence instructions
-outweighs the occasional cost of a gratuitous page-fault.
+required in these scenarios. While this approach might lead to an occasional
+gratuitous page-fault, the performance benefit of omitting the memory-management
+fence instructions outweighs the occasional cost of a gratuitous page-fault.
 ====
