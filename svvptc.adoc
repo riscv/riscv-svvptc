@@ -60,29 +60,30 @@ Copyright 2024 by RISC-V International.
 [preface]
 === Contributors
 This RISC-V specification has been contributed to directly or indirectly by:
-Alexandre Ghiti, Andrew Waterman, Greg Favor, Krste Asanovic, Ved Shanbhogue
+Alexandre Ghiti, Andrea Parri, Andrew Waterman, Greg Favor, Ken Dockser,
+Krste Asanovic, Ved Shanbhogue
 
 == Eliding Memory-Management Fences on Making PTEs Valid (Svvptc)
 
-When the Svvptc extension is implemented, explicit stores within a hart that
-update the Valid bit of leaf or non-leaf PTEs from 0 to 1 will eventually become
-visible to implicit references in that hart to the memory-management data
-structures. This visibility is immediate for instructions following a
-memory-management fence instruction that orders the preceding explicit stores.
-Otherwise these stores become visible within a bounded timeframe to implicit
-references made by subsequent instructions.
+When the Svvptc extension is implemented, explicit stores that update the Valid
+bit of leaf and/or non-leaf PTEs from 0 to 1 and are visible to a hart will
+eventually become visible within a bounded timeframe to subsequent implicit
+accesses by that hart to such PTEs.
 
 [NOTE]
 ====
 Typically, PTEs are marked as Valid by the operating system following a
-page-fault exception or during system calls for memory mapping. In cases like
-these, the trap handler usually employs an `SRET` instruction to return from the
-trap. The stores it executes to change the Valid bit of the PTEs from 0 to 1
-then become visible to implicit references in that hart to such PTEs within a
-bounded timeframe. This is applicable for instructions like the one causing the
-page-fault or those accessing new memory regions. In these scenarios, a
-memory-management fence is not required. While this approach might lead to an
-occasional gratuitous page-fault, the performance benefit of omitting the
-memory-management fence instructions outweighs the occasional cost of a
-gratuitous page-fault.
+page-fault exception or during system calls for memory mapping. In such cases,
+the trap handler commonly employs an `SRET` instruction to return from the trap.
+When Svvptc is implemented, the stores it executes to change the Valid bit
+of the PTEs from 0 to 1 then become visible to implicit references to those PTEs
+within a bounded timeframe. This visibility pertains to the instructions like
+the one causing the page-fault or those accessing new memory regions. A
+memory-management fence can be used to force immediate visibility of these PTE
+updates to all implicit references associated with instructions following the
+memory-management fence. However, when Svvptc is implemented, visibility (in a
+bounded amount of time) is guaranteed and use of a memory-management fence is
+not required in these scenarios. While this approach might lead to an occasional
+gratuitous page-fault, the performance benefit of omitting the memory-management
+fence instructions outweighs the occasional cost of a gratuitous page-fault.
 ====
