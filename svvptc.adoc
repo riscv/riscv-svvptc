@@ -78,10 +78,12 @@ these, the trap handler usually employs an `SRET` instruction to return from the
 trap. The stores it executes to change the Valid bit of the PTEs from 0 to 1
 then become visible to implicit references to such PTEs within a bounded
 timeframe. This is applicable for instructions like the one causing the
-page-fault or those accessing new memory regions. Although a memory-management
-fence could facilitate immediate visibility of these PTE updates to implicit
-references, when Svvptc is implemented, a memory-management fence is not
-required in these scenarios. While this approach might lead to an occasional
-gratuitous page-fault, the performance benefit of omitting the memory-management
-fence instructions outweighs the occasional cost of a gratuitous page-fault.
+page-fault or those accessing new memory regions. A memory-management fence can
+be used to force immediate visibility of these PTE updates to all implicit
+references associated with instructions following the memory-management fence.
+But when Svvptc is implemented, visibility (in a bounded amount of time) is
+guaranteed and use of a memory-management fence is not required in these
+scenarios. While this approach might lead to an occasional gratuitous page-fault,
+the performance benefit of omitting the memory-management fence instructions
+outweighs the occasional cost of a gratuitous page-fault.
 ====
