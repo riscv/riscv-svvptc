@@ -74,8 +74,8 @@ accesses by that hart to such PTEs.
 ====
 Svvptc relieves an operating system from executing certain memory-management
 instructions, such as `SFENCE.VMA` or `SINVAL.VMA`, which would normally be used
-to synchronize the harts address-translation caches when a memory-resident PTE
-is changed from Invalid to Valid. Synchronizing the harts address-translation
+to synchronize the hart's address-translation caches when a memory-resident PTE
+is changed from Invalid to Valid. Synchronizing the hart's address-translation
 caches with other forms of updates to a memory-resident PTE, including when a
 PTE is changed from Valid to Invalid, requires the use of suitable
 memory-management instructions. Svvptc guarantees that a change to a PTE from
