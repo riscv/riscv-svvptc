@@ -61,7 +61,7 @@ Copyright 2024 by RISC-V International.
 === Contributors
 This RISC-V specification has been contributed to directly or indirectly by:
 Alexandre Ghiti, Andrea Parri, Andrew Waterman, David Weaver, Greg Favor,
-Guy Lemieux, Ken Dockser, Krste Asanovic, Ved Shanbhogue
+Guy Lemieux, John Henry Deppe, Ken Dockser, Krste Asanovic, Ved Shanbhogue
 
 == Obviating Memory-Management Instructions after Marking PTEs Valid (Svvptc)
 
