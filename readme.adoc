@@ -1,4 +1,4 @@
-= Eliding Memory-management Fences on setting PTE valid (Svvptc) 
+= Obviating Memory-Management Instructions after Marking PTEs Valid (Svvptc) 
 
 == License
 
